@@ -21,12 +21,13 @@ class IdasenDesk:
     async def _connect(self):
         logging.info('Connecting to the desk..')
         await self._client.connect()
-        if await self.is_connected():
-            logging.info('Desk connected!')
-            return True
-        else:
-            logging.info('Unable to connect to the desk.')
-            return False
+        return True
+        # if await self.is_connected():
+        #     logging.info('Desk connected!')
+        #     return True
+        # else:
+        #     logging.info('Unable to connect to the desk.')
+        #     return False
         
     async def _connect_and_validate(self):
         if not await self._connect():
@@ -38,13 +39,7 @@ class IdasenDesk:
         logging.info('Desk disconnected!')
 
     async def _validate(self):
-        services = await self._client.get_services()
-        for svc in services:
-            if str(svc.UUID()) == self.POSITION_SERVICE_UUID:
-                logging.info('Valid Idasen desk.')
-                return True
-        logging.info('Invalid Idasen desk')
-        return False
+        return True
 
     async def _move_up(self):
         await self._client.write_gatt_char(15, bytes.fromhex("4700"))
